@@ -1,7 +1,8 @@
 const express = require('express')
 const { postTemperature, postTurbidity, postpHLevel, getTemp, getTurbidity, getph, getParameters} = require('../controllers/parameterReadingsContoller');
-
-const { fetchTemp, fetchTurbidity, fetchph } = require('../controllers/gettersController')
+const { fetchTemp, fetchTurbidity, fetchph, fetchParameters} = require('../controllers/gettersController');
+const { allParameters, getAllParameters, barParameters } = require('../controllers/streamsController');
+const { highParameters } = require('../controllers/highValue');
 
 const router = express.Router()
 
@@ -29,10 +30,11 @@ router.get('/fetchtemp', fetchTemp)
 router.get('/fetchntu', fetchTurbidity)
 router.get('/fetchph', fetchph)
 
+router.get('/fetchParameters', allParameters)
+router.get('/fetchAllParameters', getAllParameters)
+router.get('/bardata', highParameters)
 
-
-
-
+router.get('/monthdata', fetchParameters)
 
 
 

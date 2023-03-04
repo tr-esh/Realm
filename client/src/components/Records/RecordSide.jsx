@@ -2,8 +2,7 @@ import React from 'react'
 import '../styles/RecordSide.css'
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import { Button, Divider } from '@mui/material';
+import { Divider } from '@mui/material';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -18,6 +17,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: '#7da4cc',
   boxShadow: 'none',
 }));
+
 
 const RecordSide = () => {
   return (

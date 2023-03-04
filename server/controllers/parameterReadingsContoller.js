@@ -56,8 +56,6 @@ const getParameters = async (req, res) => {
 
 
 
-
-
 const getTemp = async (req, res) => {
         
         const temp = await TemperatureReading.find({}).sort({createdAt: -1})
@@ -75,5 +73,6 @@ const getph = async (req, res) => {
     const phlevel = await phLevelReading.find({}).sort({createdAt: -1})
     res.status(200).json(phlevel)
 }
+
 
 module.exports = { postTemperature, postTurbidity, postpHLevel, getTemp, getTurbidity, getph, getParameters }

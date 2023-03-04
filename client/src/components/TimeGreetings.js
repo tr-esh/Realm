@@ -9,11 +9,11 @@ const TimeGreetings = () => {
         let greetingMessage;
     
         if (hours < 12) {
-          greetingMessage = 'morning!';
+          greetingMessage = 'Morning,';
         } else if (hours >= 12 && hours < 17) {
-          greetingMessage = 'afternoon!';
+          greetingMessage = 'Afternoon,';
         } else {
-          greetingMessage = 'evening!';
+          greetingMessage = 'Evening,';
         }
     
         setGreeting(greetingMessage);

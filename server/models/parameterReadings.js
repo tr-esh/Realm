@@ -10,14 +10,19 @@ const parameterReadingsSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: Temperature
   },
+ 
+  turbidity_value: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Turbidity
+  },
   ph_value: {
     type: mongoose.Schema.Types.ObjectId,
     ref: pH_Level
   },
-  turbidity_value: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: Turbidity
-  }
+  status: {
+    type: String,
+    ref: [Temperature, Turbidity, pH_Level]
+}
 });
 
 module.exports = mongoose.model('ParamReadings', parameterReadingsSchema);

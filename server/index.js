@@ -45,7 +45,8 @@ app.use('/api/realm', parameterRoutes)
 mongoose.set('strictQuery', true)
 const mongodbConnString = "mongodb+srv://realmadmin:ZSt6kE8TzgVq92jt@realmcluster.ole0mns.mongodb.net/?retryWrites=true&w=majority"
 
-mongoose.connect(mongodbConnString)
+mongoose.connect(mongodbConnString, {useNewUrlParser: true,
+    useUnifiedTopology: true})
 
 mongoose.connection.on("error", function(error) {
     console.log(error)

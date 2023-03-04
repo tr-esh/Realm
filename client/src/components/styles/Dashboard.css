@@ -1,5 +1,5 @@
 .Dashboard {
-    margin: 3rem 4rem;
+    margin: 6rem 4rem;
 }
 
 .welcome-statement {
@@ -29,7 +29,8 @@
 
 .dataTemp>span {
     font-size: 1.3rem;
-    margin-right: 1rem;
+    margin-right: 2rem;
+    padding-left: 1rem;
 }
 
 .dataPH>span {
@@ -56,12 +57,13 @@
     display: flex;
     text-align: left;
     gap: 1rem;
+    margin-top: 5rem;
 }
 
 .TopCon {
     display: flex;
     flex-direction: row;
-    gap: 2.5rem;
+    gap: 1rem;
 }
 
 .table-holder{
@@ -76,7 +78,8 @@
 }
 
 .CircularProgressbar {
-    padding-left: 2rem;
+    padding-left: 1rem;
+    height: 12rem;
 }
 
 .CircularProgressbar-trail {
@@ -105,56 +108,4 @@
 
 .mainCon{
     width: 40vw;
-}
-.bulletin-record{
-    padding-top: 0.3rem;
-    height: 155px;
-    width: 680px;
-    overflow-y: scroll;
-}
-.bulletin-record::-webkit-scrollbar {
-    display: none;
-}
-.bulletin-holder{
-    background-color: #112a41;
-    height: 60px;
-    width: 630px;
-    border-radius: 5px 15px;
-    margin-bottom: 0.5rem;
-    border: none;
-    font-family: 'Poppins';
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-}
-.bulletin-holder:hover {
-    background-color: #16334e;
-    cursor: pointer;
-}
-.bulletin-parameter{
-    font-weight: 600;
-    font-size: 1rem;
-    text-transform: uppercase;
-    font-family: 'Inter';
-}
-.bulletin-status>.a{
-    font-size: 1rem;
-    white-space: nowrap; 
-    overflow: hidden;
-    padding-left: 7.2rem;
-}
-.bulletin-time{
-    padding-left: 6rem;
-    font-size: 1rem;
-    color: #ffff;
-}
-.bulletin-icon{
-    background-color: #d32f2f;
-    color: #ffff;
-    height: 35px;
-    border-radius: 3rem;
-    width: 35px;
-    margin-right: 3rem;
-    margin-left: -4rem;
 }

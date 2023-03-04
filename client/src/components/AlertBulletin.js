@@ -9,14 +9,14 @@ const AlertBulletin = ({all}) => {
        <span className='bulletin-parameter'> 
             {all.parameter_name}
         </span>
-        <span className='bulletin-status'>
-            <span style={{ fontFamily: 'Poppins, sans-serif',
+        <div className='bulletin-status'>
+            <div style={{ fontFamily: 'Poppins, sans-serif',
                                       fontWeight:'700', textTransform:'uppercase',
                                       color: all.status === "Caution: Acidic" ? "#d32f2f" : 
                                             all.status === "Warning: High Turbid" ? "#fa4a64" : 
                                             all.status === "warning: Rising Temperature" ? "#fa4a64" : "#ffa628" }}
-                                        className='a'>{all.status}</span>
-        </span>
+                                        className='a'>{all.status}</div>
+        </div>
         <span className='bulletin-time' style={{fontWeight:'400'}}>
         {moment(all.createdAt).format('LT')} 
         </span>

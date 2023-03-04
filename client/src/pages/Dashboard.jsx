@@ -9,7 +9,6 @@ import '../components/styles/Dashboard.css';
 import { Box, CardContent,
          Divider} from '@mui/material';
 import DashTime from '../components/DashTime';
-import Notifs from '../img/bell_notif.png';
 import DashDate from '../components/DashDate';
 import DashClock from '../components/DashClock';
 import AlertBulletin from '../components/AlertBulletin'
@@ -37,10 +36,7 @@ const value = 0.45;
 
 const Dashboard = () => {
 
-  const useStyles = styled((theme) => ({
-    notification: {
-      position: "relative",
-    },
+  const useStyles = styled(() => ({
     badge: {
       position: "absolute",
       top: -10,
@@ -167,7 +163,7 @@ const Dashboard = () => {
                     style={{ padding: '1rem 2rem' }}>
                     <div className="Header" >
                     <span style={{  fontSize: '1.3rem', 
-                              fontWeight:'600', fontFamily: 'Poppins, sans serif', color: '#66B2FF' }}
+                              fontWeight:'600', fontFamily: 'Poppins, sans serif', color: '#66B2FF'}}
                               >ALERT
                               <span style={{  fontSize: '1.3rem', 
                               fontWeight:'600', fontFamily: 'Poppins, sans serif' , color: '#ffff'}}
@@ -214,7 +210,7 @@ const Dashboard = () => {
               </Item>
             </Grid>
 
-            <Grid xs={6} md={4}
+            <Grid xs={6} md={4} 
             item className="card">
               <Item style={{  height: '10rem', backgroundColor: '#10273d' }} >
                   <CardContent style={{  display: 'flex', fontFamily: 'Inter',
