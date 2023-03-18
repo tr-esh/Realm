@@ -11,23 +11,49 @@
     margin-left: 4rem;
     border: none;
     width: 30rem;
-    height: 9vh;
+    height: 13vh;
     font-family: 'Poppins';
-    border-radius: 0.8rem;
+    border-radius: 2rem;
     text-align: left;
     padding-left: 2rem; 
     margin-bottom: 1rem;
 }
+.reading-count{
+    color: #EBEBE8;
+}
+.reading-count > .active-param {
+    color: #76B947;
+}
+
+.no-readings{
+    color:#2a557c;
+}
 .monthly-logs:hover{
     background-color: #132e47;
-    box-shadow: inset 0 0 0 1px #5090D3;
+    box-shadow: inset 8px 0 0px 0px #5090D3;
     cursor: pointer;
 }
+
+.monthly-logs:disabled:hover {
+    background-color: #b4b4b4;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
 .monthly-logs:hover .logs{
     color: #5090D3;
 }
+
+.monthly-logs:disabled:hover .logs {
+    color: #8f8f8f;
+}
+
 .monthly-logs:hover .icon{
     color: #5090D3;
+}
+
+.monthly-logs:disabled:hover .icon {
+    color: #8f8f8f;
 }
 
 .months{
@@ -43,6 +69,7 @@
 .logs{
      color:#66B2FF;
      font-size: 1.2rem;
+     padding-left: 0.2rem
 }
 
     

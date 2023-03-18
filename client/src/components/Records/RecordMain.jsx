@@ -61,9 +61,9 @@ const RecordMain = () => {
               </Item>
               <div style={{color: '#ffff', paddingLeft: '6rem', fontSize: '1.5rem', 
                                        fontWeight:'600', paddingBottom:'2.7rem',
-                                       alignItems: 'center', display: 'flex'}}> Monthly  
-                                       <span style={{color: '#66B2FF', marginLeft:'4px'}}>  Record </span> <span style={{ marginLeft:'4px'}}> Logs </span>
-                                       <ExpandCircleDownIcon style= {{paddingLeft:'0.7rem'}} sx={{ fontSize: 30}}/></div>
+                                       alignItems: 'center', display: 'flex'}}> MONTHLY  
+                                       <span style={{color: '#66B2FF', marginLeft:'4px'}}>  RECORD </span> <span style={{ marginLeft:'4px'}}> LOGS </span>
+                                       </div>
             
             <div className='monthly-record-holder'>
                 <MonthLogs/>

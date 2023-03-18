@@ -40,7 +40,7 @@ const Sidebar = () => {
                 >
                   <NavLink to={item.path} 
                            style={{ color:'white', textDecoration: 'none' }}
-                           className={({isActive}) => (isActive ? activeLink: normalLink)}
+                           className={({isactive}) => (isactive ? activeLink: normalLink)}
                            isActive={location.pathname === item.path}>
                       <div className="item-holder" style={{display: 'flex', alignItems: 'center'}}>
                         <span className="icon">

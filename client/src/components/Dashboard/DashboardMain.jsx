@@ -401,7 +401,8 @@ const DashboardMain = () => {
                           <div className="phtamp">
                             <span key={phLevel.id}
                             style={{color: phLevel.status[2] === "Normal" ? "#bedaff" : 
-                            phLevel.status[2] === "Conditional" ? "#f0de53" : 
+                            phLevel.status[2] === "Conditional" ? "#f0de53" :
+                            phLevel.status[2] === "High Alkalinity" ? "#ffaf7a" : 
                             phLevel.status[2] === "Caution: Acidic" ? "#ffc661" : "white",
                             fontSize:'0.95rem'}}>
                                 {phLevel.status[2]}

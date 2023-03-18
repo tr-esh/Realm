@@ -142,7 +142,12 @@ const DashboardSide = () => {
         </p>
         
       ) : (
-        <img style={{width:'20rem', display:'block', margin:'auto'}} src={newIllustration} alt="Illustration"/>
+        // <img style={{width:'20rem', display:'block', margin:'auto'}} src={newIllustration} alt="Illustration"/>
+        <span style={{fontFamily:'Poppins', 
+                        color: '#23496e',
+                        paddingLeft: '5rem'}}>
+                          No new notifications
+                      </span>
       )}
     </div>
         
