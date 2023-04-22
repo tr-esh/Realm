@@ -1,0 +1,20 @@
+{
+  "name": "realm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tr-esh/Realm.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tr-esh/Realm/issues"
+  },
+  "homepage": "https://github.com/tr-esh/Realm#readme"
+}
