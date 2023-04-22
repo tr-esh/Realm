@@ -3,8 +3,6 @@ const TurbidityReading = require('../models/turbidityModel')
 const phLevelReading = require('../models/phLevelModel')
 
 
-
-
 const fetchTemp = async (req, res) => {
         
     const temp = await TemperatureReading.findOne({}, {_id: 1, parameter_name: 1, temperature_value: 1, status: 1}).sort({createdAt: -1})
@@ -25,30 +23,6 @@ res.status(200).json(phlevel)
 
 
 const fetchParameters = async (req, res) => {
-
-    // try {
-    //     const temp = await TemperatureReading.find({})
-    //     const turbid = await  TurbidityReading.find({})
-    //     const phlevel = await phLevelReading.find({})
-        
-    //     const Parameters = [...temp, ...turbid, ...phlevel]
-
-    //      // Create a new array with data for all three parameters
-    //     const data = Parameters.map((param) => ({
-    //     id: param._id, // Use a unique identifier for each row
-    //     type: param.parameter_name, // Add a column for the parameter type
-    //     value: [param.temperature_value, param.ntu_value, param.ph_value],
-    //     status: param.status, // Add a column for the parameter value
-    //     createdAt: param.createdAt, // Add a column for the created date
-    //     }));
-  
-    //     res.status(200).json(data);
-
-    //     // res.status(200).json(Parameters)
-
-    // } catch (error) {
-    //     res.status(500).json({message: 'Cannot get all the request'})
-    // }
     try {
         const [temp, turbid, phlevel] = await Promise.all([
           TemperatureReading.find({}),
@@ -75,85 +49,47 @@ const fetchParameters = async (req, res) => {
       }
 }
 
-    // try {
-    //     const temp = await TemperatureReading.aggregate([
-    //       {
-    //         $group: {
-    //           _id: { $month: "$createdAt" },
-    //           count: { $sum: 1 }
-    //         }
-    //       }
-    //     ]);
-    //     const turbid = await TurbidityReading.aggregate([
-    //       {
-    //         $group: {
-    //           _id: { $month: "$createdAt" },
-    //           count: { $sum: 1 }
-    //         }
-    //       }
-    //     ]);
-    //     const phlevel = await phLevelReading.aggregate([
-    //       {
-    //         $group: {
-    //           _id: { $month: "$createdAt" },
-    //           count: { $sum: 1 }
-    //         }
-    //       }
-    //     ]);
+
+    const getHourlyMean = async (collectionName) => {
+      let collection;
+      switch (collectionName) {
+        case 'TemperatureReading':
+          collection = TemperatureReading;
+          break;
+        case 'TurbidityReading':
+          collection = TurbidityReading;
+          break;
+        case 'phLevelReading':
+          collection = phLevelReading;
+          break;
+        default:
+          return null;
+      }
+      const now = new Date();
+      const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+      const results = await collection.aggregate([
+        {
+          $match: {
+            createdAt: { $gte: oneHourAgo, $lte: now }
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            meanValue: { $avg: `$${collectionName == 'phLevelReading' ? 'ph_value' : `${collectionName.toLowerCase()}_value`}` }
+          }
+        }
+      ]).exec();
+      return results[0]?.meanValue ?? null;
+    };
+
     
-    //     const countsByMonth = {};
-    //     [...temp, ...turbid, ...phlevel].forEach((data) => {
-    //       const month = data._id;
-    //       if (!countsByMonth[month]) {
-    //         countsByMonth[month] = data.count;
-    //       } else {
-    //         countsByMonth[month] += data.count;
-    //       }
-    //     });
+    const fetchHourlyMeans = async (req, res) => {
+      const temperatureMean = await getHourlyMean('TemperatureReading');
+      const turbidityMean = await getHourlyMean('TurbidityReading');
+      const phMean = await getHourlyMean('phLevelReading');
+      res.status(200).json({ temperatureMean, turbidityMean, phMean });
+    };
     
-    //     res.status(200).json({
-    //       countsByMonth,
-    //       parameters: [...temp, ...turbid, ...phlevel],
-    //     });
-    //   } catch (error) {
-    //     res.status(500).json({ message: "Cannot get all the request" });
-    //   }
-    // };
 
-
-    // try {
-    //     const date = new Date();
-    //     const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-    //     const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59, 999);
-
-    //     const temp = await TemperatureReading.find({
-    //     createdAt: {
-    //         $gte: startOfMonth,
-    //         $lte: endOfMonth
-    //     }
-    //     }).sort({createdAt: -1});
-
-    //     const turbid = await TurbidityReading.find({
-    //     createdAt: {
-    //         $gte: startOfMonth,
-    //         $lte: endOfMonth
-    //     }
-    //     }).sort({createdAt: -1});
-
-    //     const phlevel = await phLevelReading.find({
-    //     createdAt: {
-    //         $gte: startOfMonth,
-    //         $lte: endOfMonth
-    //     }
-    //     }).sort({createdAt: -1});
-
-    //     const Parameters = [...temp, ...turbid, ...phlevel];
-
-    //     res.status(200).json(Parameters);
-
-    // } catch (error) {
-    //     res.status(500).json({message: 'Cannot get all the request'})
-    // }
-
-
-module.exports = { fetchTemp, fetchTurbidity, fetchph, fetchParameters}
+module.exports = { fetchTemp, fetchTurbidity, fetchph, fetchParameters, fetchHourlyMeans}

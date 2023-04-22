@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import MonthLogs from '../MonthLogs';
-import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 import '../styles/RecordMain.css'
 const record_illustration = new URL('../../img/record_illustration.png', import.meta.url);
 
@@ -48,10 +47,10 @@ const RecordMain = () => {
                       style={{ marginTop: '2rem', display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
                     <div className="headname" 
                       style={{  fontFamily: 'Poppins, sans-serif', 
-                        fontWeight: '600', lineHeight: '0.8', 
+                        fontWeight: '400', lineHeight: '0.8', 
                         display: 'flex', textAlign: 'start', width: '6rem'}} >
                         <span style={{ color:'#FFFF', width: '25rem'}}>RECORD</span>
-                        <span style={{ color:'#66B2FF', width: '25rem'}}>LOGS</span>
+                        <span style={{ color:'#66B2FF', width: '25rem', color: '#66B2FF'}}>LOGS</span>
                     </div>
                     <div style={{marginTop:'-9rem', paddingLeft:'18rem'}}>
                       <img src={record_illustration} alt="record_item" className="record_illus"
@@ -59,11 +58,7 @@ const RecordMain = () => {
                     </div>
                   </div>
               </Item>
-              <div style={{color: '#ffff', paddingLeft: '6rem', fontSize: '1.5rem', 
-                                       fontWeight:'600', paddingBottom:'2.7rem',
-                                       alignItems: 'center', display: 'flex'}}> MONTHLY  
-                                       <span style={{color: '#66B2FF', marginLeft:'4px'}}>  RECORD </span> <span style={{ marginLeft:'4px'}}> LOGS </span>
-                                       </div>
+              
             
             <div className='monthly-record-holder'>
                 <MonthLogs/>

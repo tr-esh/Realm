@@ -5,17 +5,28 @@ import Brightness1RoundedIcon from '@mui/icons-material/Brightness1Rounded';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded';
-import BackupRoundedIcon from '@mui/icons-material/BackupRounded';
+import Slider from 'react-slick';
 import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
-import Papa from 'papaparse';
 import * as writeXLSX from 'xlsx';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 
 
 const MonthLogs = () => {
+
+  const [sliderIndex, setSliderIndex] = useState(0);
+  
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 2,
+    initialSlide: 0,  
+    afterChange: (index) => setSliderIndex(index),   
+  };
 
 
 
@@ -53,9 +64,6 @@ const MonthLogs = () => {
     // handle clear data
   };
 
-  
-    
-  
   
   const handleBackupData = () => {
   };
@@ -121,6 +129,7 @@ const MonthLogs = () => {
   }, []);
 
 
+  
   const handleMonthClick = async (month, event) => {
     const response = await fetch(`/api/realm/monthdata`);
     const data = await response.json();
@@ -133,48 +142,19 @@ const MonthLogs = () => {
     );
   
     navigate(`/Logs/RecordTable/${month.abbreviation}`, { state: { data: filteredData } });
-    }
-  };
 
-  
-
-  // const handleExportData = async (month) => {
-  //   // Fetch the data for the selected month
-  //   const response = await fetch('/api/realm/monthdata');
-  //   const data = await response.json();
     
-  //   // Filter the data for the selected month
-  //   const filteredData = data.filter(param => {
-  //     const createdAtMonth = new Date(param.createdAt).toLocaleString("en-PH", { month: "long" }).toUpperCase();
-  //     console.log('Month:', month, 'Created At Month:', createdAtMonth);
-  //     return createdAtMonth === month;
-  //   });
-
-  //   console.log(data);
-  //   console.log(filteredData);
+    }
+  }
 
   
-  //   // Convert the filtered data to CSV
-  //   const headers = Object.keys(filteredData[0]).join(",");
-  //   const csv = data.map((row) => Object.values(row).join(",")).join("\n");
-  
-  //   // Download the CSV file
-  //   const blob = new Blob([headers + "\n" + csv], { type: "text/csv;charset=utf-8;" });
-  //   const link = document.createElement("a");
-  //   if (link.download !== undefined) {
-  //     const url = URL.createObjectURL(blob);
-  //     link.setAttribute("href", url);
-  //     link.setAttribute("download", `${month} logs.csv`);
-  //     link.style.visibility = "hidden";
-  //     document.body.appendChild(link);
-  //     link.click();
-  //     document.body.removeChild(link);
-  //   }
-  // };
 
-  const handleExportData = async (month) => {
+  const handleExportData = async () => {
+    const currentMonth = new Date().toLocaleString('en-US', { month: 'long' });
+    const formattedMonth = currentMonth.toUpperCase();
+
     // Fetch the data for the selected month
-    const response = await fetch('/api/realm/monthdata');
+    const response = await fetch(`/api/realm/monthdata?month=${formattedMonth}`);
     const data = await response.json();
   
     // Map the filtered data to match the CSV fields
@@ -197,15 +177,14 @@ const MonthLogs = () => {
     const wb = writeXLSX.utils.book_new();
   
     // Filter the data by parameter type and create separate sheets for each parameter
-    const tempData = mappedData.filter(({ type }) => type === 'temperature');
-    const turbidData = mappedData.filter(({ type }) => type === 'turbidity');
-    const phData = mappedData.filter(({ type }) => type === 'pH');
+    const tempData = mappedData.filter(({ type, createdAt }) => type === 'temperature' && new Date(createdAt).toLocaleString('en-PH', { month: 'long' }).toUpperCase() === formattedMonth);
+    const turbidData = mappedData.filter(({ type, createdAt }) => type === 'turbidity' && new Date(createdAt).toLocaleString('en-PH', { month: 'long' }).toUpperCase() === formattedMonth);
+    const phData = mappedData.filter(({ type, createdAt }) => type === 'pH' && new Date(createdAt).toLocaleString('en-PH', { month: 'long' }).toUpperCase() === formattedMonth);
+
   
     const tempSheet = writeXLSX.utils.json_to_sheet(tempData);
     const turbidSheet = writeXLSX.utils.json_to_sheet(turbidData);
     const phSheet = writeXLSX.utils.json_to_sheet(phData);
-  
-
   
     // Add the sheets to the workbook
     writeXLSX.utils.book_append_sheet(wb, tempSheet, 'Temperature');
@@ -232,66 +211,103 @@ const MonthLogs = () => {
       return buf;
     }
   }
+
+ 
+  
+
   
   
   // Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'book_new')
-  
-  
-  
 
-  
 
     return(
+      
         <div className="month-logs">
+            <Slider {...settings}>
         {months.map((month) => (
-              <button key={month.abbreviation} onClick={(e) => handleMonthClick(month, e)} className="monthly-logs" disabled={!month.data || month.data.length === 0}>
-                  <div className="months" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <PlaylistAddCheckCircleRoundedIcon className="icon" sx={{ fontSize: 45, color: '#e3f2fd', width: '5rem' }} />
-                          <div style={{ display: 'flex', flexDirection: 'column' }}>
-                              <div className="month" style={{ display: 'flex', alignContent: 'center', textAlign:'center', justifyContent: 'space-between'}} >
-                                {month.name} <span className="logs"> LOGS </span> {/* display the count of data for the month */}
-                              
+              <button key={month.abbreviation} 
+                      onClick={(e) => handleMonthClick(month, e)} 
+                      className="monthly-logs" 
+                      disabled={!month.data || month.data.length === 0}>
+                    
+                    <div style={{}}>
+                      <div className="months" 
+                          style={{ display: 'flex', 
+                          justifyContent: 'space-between', 
+                          alignItems: 'center'}}>
+
+                            {month.data && month.data.length > 0 ? (
+                              <div className='reading-count' style={{fontWeight:'600', 
+                                                                      fontSize: '2.3rem',
+                                                                      marginTop: '-2rem'}}>
+                                  {month.data.length}
                               </div>
-                              {month.data && month.data.length > 0 ? (
-                                  <div className='reading-count' style={{fontWeight:'600', fontSize: 'rem'}}>
-                                    {month.data.length} readings  <span className='active-param'> <Brightness1RoundedIcon sx={{ fontSize: 10}} /> </span>
-                                  </div>
-                                ) : (
-                                  <div className='no-readings'>
-                                    No readings
-                                  </div>
-                                )}
-                              
+                              ) : (
+                              <div className='no-readings' style={{marginTop: '1.5rem'}}>
+                                      no data
+                              </div>
+                              )}
+                      </div>
+
+                      <div style={{marginTop: '3rem', marginRight: '1rem', textAlign: 'left'}}>
+                          <div className="month" style={{ display: 'flex', 
+                                                          flexDirection: 'column',
+                                                          lineHeight: '0.9'}} >
+                              <span> {month.name} </span>
+                              <span className="logs"> LOGS </span> {/* display the count of data for the month */}
                           </div>
                       </div>
-                    <span >
-                    <IconButton
-                    onClick={handleMenuClick}
-                    sx={{
-                      fontSize: 25,
-                      color: '#e3f2fd',
-                      display: 'flex',
-                      marginRight: '2rem'
-                    }}
-                    disabled={!month.data || month.data.length === 0}
-                  >
-                        <MoreHorizIcon sx={{ fontSize: 25, color: '#e3f2fd', display: 'flex'}} />
-                        </IconButton>
-                  <Menus 
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={handleMenuClose}
+                    </div> 
+
                     
-                  >
-                    <MenuItem style={{color: 'white', fontFamily: 'Poppins'}} onClick={handleClearData}><span style={{padding:'0.7rem'}}> Clear Data </span></MenuItem>
-                    <MenuItem style={{color: 'white', fontFamily: 'Poppins'}} onClick={handleExportData}><span style={{padding:'0.7rem'}}> Export Data </span> </MenuItem>
-                    <MenuItem style={{color: 'white', fontFamily: 'Poppins'}} onClick={handleBackupData}><span style={{padding:'0.7rem'}}> Backup Data </span> </MenuItem>
-                  </Menus>
-                    </span>
+                                  
+                    <div className="buttomCon"
+                          style={{ display: 'flex', gap: '2rem', marginLeft: '-2rem',
+                          width: '299px', height: '75px',
+                          flexDirection: 'row', padding: '0 2ch',backgroundColor: '#66B2FF', 
+                          borderBottomLeftRadius: '1.6rem', borderBottomRightRadius: '1.6rem',
+                          alignItems:'center', bottom: '0',
+                          position: 'absolute'}}>
+
+                       <div style={{ display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginLeft: "3px",
+                        color: "#ffffff", }}>
+                        {month.data && month.data.length > 0 ? 'Active' : 'Offline'}
+                      
+                      
+                      <span >
+                        <IconButton
+                            onClick={handleMenuClick}
+                            sx={{
+                              fontSize: 25,
+                              color: '#e3f2fd',
+                              display: 'flex',
+                              marginLeft: '13rem'
+                            }}
+                            disabled={!month.data || month.data.length === 0}
+                        >
+                            <MoreHorizIcon sx={{ fontSize: 25, color: '#e3f2fd', display: 'flex'}} />
+                        </IconButton>
+                        <Menus 
+                          anchorEl={anchorEl}
+                          open={Boolean(anchorEl)}
+                          onClose={handleMenuClose}
+                          
+                        >
+                          <MenuItem style={{color: 'white', fontFamily: 'Poppins'}} onClick={handleClearData}><span style={{padding:'0.7rem'}}> Clear Data </span></MenuItem>
+                          <MenuItem style={{color: 'white', fontFamily: 'Poppins'}} onClick={(e) => handleExportData(month, e)}><span style={{padding:'0.7rem'}}> Export Data </span> </MenuItem>
+                          <MenuItem style={{color: 'white', fontFamily: 'Poppins'}} onClick={handleBackupData}><span style={{padding:'0.7rem'}}> Backup Data </span> </MenuItem>
+                        </Menus>
+                      </span>
+                   </div>
                     </div>
               </button>
             ))}
+          </Slider>
+              
+              
           
         </div>
     )

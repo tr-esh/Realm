@@ -1,7 +1,7 @@
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import TimelineRoundedIcon from '@mui/icons-material/TimelineRounded';
 import FormatListBulletedRoundedIcon from '@mui/icons-material/FormatListBulletedRounded';
-import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
+// import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 
 
 
@@ -22,11 +22,11 @@ export const SidebarData = [
         path: "/Logs",
         heading: "Record Logs",
     },
-    {
-        icon: <SettingsRoundedIcon className='sidebar-icon' sx={{ fontSize: 30, paddingTop:'0.5rem'}}/> ,
-        path: "/Controls",
-        heading: "Control Panel",
-    },
+    // {
+    //     icon: <SettingsRoundedIcon className='sidebar-icon' sx={{ fontSize: 30, paddingTop:'0.5rem'}}/> ,
+    //     path: "/Controls",
+    //     heading: "Control Panel",
+    // },
     
 ];
 

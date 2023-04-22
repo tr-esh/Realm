@@ -56,7 +56,11 @@ const DashboardSide = () => {
   const [open, setOpen] = useState(false);
   const [all, setAll] = useState([])
   const [modalOpen, setModalOpen] = useState(false);
-  const maxWidth = React.useState('xs');
+  const [temperaturenotif, setTemperatureNotif] = useState([])
+  const [turbiditynotif, setTurbidityNotif] = useState([])
+  const [phnotif, setPhNotif] = useState([])
+  const [modalData, setModalData] = useState([])
+  const maxWidth = React.useState('xl');
 
 
 
@@ -69,9 +73,15 @@ const DashboardSide = () => {
         // Filter data to only include the current day
         const today = moment().startOf('day');
         const filteredData = json.filter((data) => moment(data.createdAt).isSame(today, 'day'));
+        const tempData = filteredData.filter((param) => (param.parameter_name === 'temperature'));
+        const ntuData = filteredData.filter((param) => (param.parameter_name === 'turbidity'))
+        const pHData = filteredData.filter((param) => (param.parameter_name === 'pH'))
   
         setAll(filteredData);
         setNotificationCount(filteredData.length);
+        setTemperatureNotif(tempData)
+        setTurbidityNotif(ntuData)
+        setPhNotif(pHData)
         setOpen(true);
       }
     }
@@ -81,8 +91,20 @@ const DashboardSide = () => {
 
   }, [])
 
-  const handleModalOpen = () => {
+  const handleModalOpen = (alertType) => {
+    // filter the `all` array based on the clicked alert type
+    let filteredData = [];
+    if (alertType === 'temperature') {
+      filteredData = all.filter(data => data.parameter_name === 'temperature');
+    } else if (alertType === 'turbidity') {
+      filteredData = all.filter(data => data.parameter_name === 'turbidity');
+    } else if (alertType === 'ph') {
+      filteredData = all.filter(data => data.parameter_name === 'pH');
+    }
+  
+    // update the state to open the modal and set the filtered data
     setModalOpen(true);
+    setModalData(filteredData);
   };
   const handleModalClose = () => {
     setModalOpen(false);
@@ -90,9 +112,9 @@ const DashboardSide = () => {
 
 
 
-  const newIllustration = new URL('../../img/error_notif.png', import.meta.url)
+  // const newIllustration = new URL('../../img/error_notif.png', import.meta.url)
   const warnIllustration = new URL('../../img/Warning-pana.png', import.meta.url)
-
+  const hasNotifications = temperaturenotif.length > 0 || turbiditynotif.length > 0 || phnotif.length > 0;
 
   return (
     <div className='Dashboard-Side'>
@@ -104,13 +126,13 @@ const DashboardSide = () => {
                     Keep a watchful eye on water quality with REALM, the innovative IoT
                     solution that simplifies and streamlines water quality monitoring in real-time.
         </div>
-        <div className="Header" style={{gap: '5rem'}}>
+        <div className="Header" style={{gap: '12rem'}}>
           <span style={{
             fontSize: '1rem',
             fontWeight: '600', 
             fontFamily: 'Inter', 
             color: '#ffff'
-          }}>Alert Bulletin </span>
+          }}>Records </span>
 
           <IconButton sx={{ marginTop: '-15px' }}>
             <Badge color="error" 
@@ -121,7 +143,7 @@ const DashboardSide = () => {
               badgeContent={notificationCount}>
               <CircleNotificationsRoundedIcon 
               sx={{ fontSize: 25, color: '#ffff', 
-              paddingTop:'0.4rem', paddingLeft:'4rem'}} />
+              paddingTop:'0.4rem'}} />
             </Badge>
           </IconButton>
         </div>
@@ -131,26 +153,44 @@ const DashboardSide = () => {
       </div>
 
 
-      <div>
-      {all && all.length > 0 ? (
-        <p className='bulletin-holder' onClick={handleModalOpen}>
-         <WarningRoundedIcon className='warning-icon' style={{color: '#ffc661'}} sx={{fontSize: '2rem'}}/>
-                <span className='warning-holder'>
-                  <span className='warning-signal' style={{color:'#ffff'}}> Anomalies Detected </span>
-                  <span className='subwarning'> Anomalies Detected in Parameter. Click to review and take timely remedial actions. </span> 
-                </span>
-        </p>
-        
-      ) : (
-        // <img style={{width:'20rem', display:'block', margin:'auto'}} src={newIllustration} alt="Illustration"/>
-        <span style={{fontFamily:'Poppins', 
-                        color: '#23496e',
-                        paddingLeft: '5rem'}}>
-                          No new notifications
-                      </span>
-      )}
-    </div>
-        
+        <div>
+            {hasNotifications ? (
+              <>
+                {temperaturenotif.length > 0 && (
+                  <p className='bulletin-holder' onClick={() => handleModalOpen('temperature')}>
+                    <WarningRoundedIcon className='warning-icon' style={{color: '#ffc661'}} sx={{fontSize: '2rem'}}/>
+                    <span className='warning-holder'>
+                      <span className='warning-signal' style={{color:'#ffff'}}> TEMPERATURE WARNING  </span>
+                      <span className='subwarning'> Anomalies Detected in Temperature. Click to review and take timely remedial actions. </span> 
+                    </span>
+                  </p>
+                )}
+                {turbiditynotif.length > 0 && (
+                  <p className='bulletin-holder' onClick={() => handleModalOpen('turbidity')}>
+                    <WarningRoundedIcon className='warning-icon' style={{color: '#ffc661'}} sx={{fontSize: '2rem'}}/>
+                    <span className='warning-holder'>
+                      <span className='warning-signal' style={{color:'#ffff'}}> TURBIDITY WARNING </span>
+                      <span className='subwarning'> Anomalies Detected in Turbidity. Click to review and take timely remedial actions. </span> 
+                    </span>
+                  </p>
+                )}
+                {phnotif.length > 0 && (
+                  <p className='bulletin-holder' onClick={() => handleModalOpen('ph')}>
+                    <WarningRoundedIcon className='warning-icon' style={{color: '#ffc661'}} sx={{fontSize: '2rem'}}/>
+                    <span className='warning-holder'>
+                      <span className='warning-signal' style={{color:'#ffff'}}> PH WARNING </span>
+                      <span className='subwarning'> Anomalies Detected in pH. Click to review and take timely remedial actions. </span> 
+                    </span>
+                  </p>
+                )}
+              </>
+            ) : (
+              <span style={{fontFamily:'Poppins', color: '#23496e', paddingLeft: '5rem'}}>
+                No new notifications
+              </span>
+            )}
+        </div>
+
         
         <Modal open={modalOpen} onClose={handleModalClose} maxWidth={maxWidth}>
           <div>
@@ -162,14 +202,14 @@ const DashboardSide = () => {
               </div>
               </div> 
              </div>
-             <div style={{fontWeight:'300', fontSize:'1rem'}}> {all.length} result/s </div>
+             <div style={{fontWeight:'300', fontSize:'1rem'}}> {modalData.length} result/s </div>
              </DialogTitle>
           <DialogContent className='content-holder'>
           <div className='modal-holder'> 
           <img className='warn-icon' style={{width:'27rem', display:'block', margin:'auto'}} src={warnIllustration} alt="Illustration" /> 
             <div className='alert-holder' style={{ height:'30rem'}}>
-            {all && all.length > 0 ? (
-              all.map((data, index) => (
+            {modalData && modalData.length > 0 ? (
+              modalData.map((data, index) => (
                 <div className='alert-details' key={index}>
                   <div className='time-created'>{moment(data.createdAt).format('LT')} • {moment(data.createdAt).fromNow('mm')}
                   </div>

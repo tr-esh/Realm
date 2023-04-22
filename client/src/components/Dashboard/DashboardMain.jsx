@@ -32,7 +32,7 @@ const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'center',
-    borderRadius: '1.6rem',
+    borderRadius: '2.5rem',
     fontWeight: '600',
     fontSize: '1rem',
     color: '#ffff',
@@ -197,7 +197,7 @@ const DashboardMain = () => {
 
         <Grid xs={6} md={6}
              item className="card">
-              <Item style={{  height: '14rem', boxShadow: 'inset 0 0 0 1px #5090D3'}} elevation={0}>
+              <Item style={{  height: '14rem', backgroundColor: '#66B2FF'}} elevation={0}>
                   <CardContent  className="Status">
                       <div  className='headings'
                         style={{  fontFamily: 'Poppins, sans-serif', 
@@ -209,11 +209,11 @@ const DashboardMain = () => {
                             >STATUS</span>
 
                             <span style={{  fontSize: '3rem', 
-                            fontWeight:'700', color:'#66B2FF', paddingBottom: '1.5rem' }}
+                            fontWeight:'700', color:'#0A1929', paddingBottom: '1.5rem' }}
                             >TODAY</span>
                             
-                            <span style={{  backgroundColor: '#66B2FF', fontSize: '1.25em',
-                            padding: ' 1.5rem 3.5rem', color: '#ffff', borderRadius: '10px',
+                            <span style={{  backgroundColor: '#0A1929', fontSize: '1.25em',
+                            padding: ' 1.5rem 3.5rem', color: '#ffff', borderRadius: '2.5rem',
                             textAlign: 'center'}}
                             >SAFE</span>
                         </div>
@@ -231,8 +231,8 @@ const DashboardMain = () => {
                               styles={buildStyles({
                               strokeLinecap: "butt",
                               textSize: '0.65rem',
-                              textColor: "#66B2FF",
-                              pathColor: "#66B2FF"})}/>
+                              textColor: "#0A1929",
+                              pathColor: "#0A1929"})}/>
                         </div>
 
             
@@ -291,7 +291,7 @@ const DashboardMain = () => {
                     <div className="BottomCon" 
                           style={{ paddingTop: '1.3rem' }}>
                         <div 
-                          style={{ borderRadius: '10px', 
+                          style={{ borderRadius: '2.5rem', 
                           fontWeight: '700', 
                           padding: '2ch', textAlign: 'center', 
                           backgroundColor:'#122B44'}}>
@@ -345,7 +345,7 @@ const DashboardMain = () => {
                     <div className="BottomCon" 
                     style={{ paddingTop: '1.3rem' }}>
                         <div 
-                        style={{ borderRadius: '10px', 
+                        style={{ borderRadius: '2.5rem', 
                         fontWeight: '700', 
                         padding: '2ch', textAlign: 'center', 
                         backgroundColor:'#122B44'}}>
@@ -394,7 +394,7 @@ const DashboardMain = () => {
                     <div className="BottomCon" 
                     style={{ paddingTop: '1.3rem' }}>
                         <div 
-                        style={{ borderRadius: '10px', 
+                        style={{ borderRadius: '2.5rem', 
                         fontWeight: '700', 
                         padding: '2ch', textAlign: 'center',                  
                         backgroundColor:'#122B44'}}>
@@ -459,10 +459,10 @@ const DashboardMain = () => {
                                   borderTopLeftRadius: '1.6rem', borderTopRightRadius: '1.6rem',
                                   alignItems:'center'}}>
                         <span style={{ fontSize: '2rem', fontFamily: 'Inter',
-                            fontWeight: '700', color:'#ffff', paddingLeft:'0.6rem'}}>
+                            fontWeight: '700', color:'#0A1929', paddingLeft:'0.6rem'}}>
                           TODAY
                         </span>
-                        <EventNoteRoundedIcon sx={{fontSize:'2rem'}}/>
+                        <EventNoteRoundedIcon sx={{fontSize:'2rem', color: '#0A1929'}}/>
                     </div>
                   <div className="mainCon" style={{
                     display: 'flex', marginTop: '3rem'}}>

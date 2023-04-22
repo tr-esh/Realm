@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material/styles';  
 import { Divider, Grid } from '@mui/material';
-import RecordMonthTable from './RecordMonthTable';
 import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded';
 import ElectricMeterRoundedIcon from '@mui/icons-material/ElectricMeterRounded';
 import DeviceThermostatRoundedIcon from '@mui/icons-material/DeviceThermostatRounded';
@@ -21,7 +20,6 @@ import { Paper,
 import '../styles/RecordMonthTable.css'
 import moment from 'moment';
 import OpacityRoundedIcon from '@mui/icons-material/OpacityRounded';
-import TrendingFlatRoundedIcon from '@mui/icons-material/TrendingFlatRounded';
 
 
 
@@ -38,7 +36,7 @@ const Item = styled(Paper)(({ theme }) => ({
     boxShadow: 'none',
   }));
   
-
+  
   const RecordMonthMain = () => {
 
   const location = useLocation();
@@ -60,7 +58,7 @@ const Item = styled(Paper)(({ theme }) => ({
                      phlevel: 'PH LEVEL'}
 
   const [showTable, setShowTable] = useState(false);
-  const [activeButtons, setActiveButtons] = useState([false, false, false]);
+  const [activeButtons, setActiveButtons] = useState('');
   const [data, setData] = useState('');
   const [type, setType] = useState('');
   const [params, setParams] = useState('');
@@ -152,7 +150,7 @@ const Item = styled(Paper)(({ theme }) => ({
                                 backgroundColor:'#0E2337',
                                 height: '6rem',
                                 width: '16rem',
-                                borderRadius: '1.2rem',
+                                borderRadius: '2rem',
                                 alignItems:'center'}}>
                                 <span className='hero-icon-holder' style={{marginRight: '0.7rem',
                                             backgroundColor: selectedButton === 'tempcolor' ? '#8A6DC1' :
@@ -185,7 +183,7 @@ const Item = styled(Paper)(({ theme }) => ({
                                 backgroundColor:'#0E2337',
                                 height: '6rem',
                                 width: '16rem',
-                                borderRadius: '1.2rem',
+                                borderRadius: '2rem',
                                 alignItems:'center',
                                 marginLeft:'-13rem'}}>
                                 <span className='hero-icon-holder' style={{marginRight: '0.7rem',
@@ -235,31 +233,32 @@ const Item = styled(Paper)(({ theme }) => ({
                               <TableContainer  sx={{
                                 borderTopRightRadius: '35px',
                                 borderTopLeftRadius: '35px',
-                                "& th": {
-                                  color: "rgba(96, 96, 96)",
-                                  backgroundColor: "rgba(49, 87, 123, 1)",
-                                  position: 'sticky', 
-                                  top: 0
+                                '& th': {
+                                  color: 'rgba(96, 96, 96)',
+                                  backgroundColor: 'rgba(49, 87, 123, 1)',
+                                  position: 'sticky',
+                                  top: 0,
                                 },
-                                "&::-webkit-scrollbar": {
-                                width: 20
+                                '&::-webkit-scrollbar': {
+                                  width: 20,
                                 },
-                                "&::-webkit-scrollbar-track": {
-                                backgroundColor: "#0F263F",
-                                borderRadius: 2
+                                '&::-webkit-scrollbar-track': {
+                                  backgroundColor: '#0F263F',
+                                  borderRadius: 2,
                                 },
-                                "&::-webkit-scrollbar-thumb": {
-                                backgroundColor: "#194069",
-                                borderRadius: 2
-                                }
-                              }}style={{ maxHeight: '500px', overflowY: 'scroll'  }}>
+                                '&::-webkit-scrollbar-thumb': {
+                                  backgroundColor: '#194069',
+                                  borderRadius: 2,
+                                },
+                              }}
+                              style={{ height: '500px', overflowY: 'scroll' }}>
                               <Table>
                                 <TableHead>
                                   <TableRow>
-                                    <TableCell style={{ color: 'white', fontFamily: 'Poppins, sans-serif', fontSize: '1rem', textAlign: 'center' }}>Parameter Name</TableCell>
-                                    <TableCell style={{ color: 'white', fontFamily: 'Poppins, sans-serif', fontSize: '1rem', textAlign: 'center' }}>Value</TableCell>
-                                    <TableCell style={{ color: 'white', fontFamily: 'Poppins, sans-serif', fontSize: '1rem', textAlign: 'center' }}>Status</TableCell>
-                                    <TableCell style={{ color: 'white', fontFamily: 'Poppins, sans-serif', fontSize: '1rem', textAlign: 'center' }}>Time & Date</TableCell>
+                                    <TableCell style={{ color: 'white', fontFamily: 'Poppins, sans-serif', fontSize: '1rem', textAlign: 'center', borderBottom:'none' }}>Parameter Name</TableCell>
+                                    <TableCell style={{ color: 'white', fontFamily: 'Poppins, sans-serif', fontSize: '1rem', textAlign: 'center', borderBottom:'none' }}>Value</TableCell>
+                                    <TableCell style={{ color: 'white', fontFamily: 'Poppins, sans-serif', fontSize: '1rem', textAlign: 'center', borderBottom:'none' }}>Status</TableCell>
+                                    <TableCell style={{ color: 'white', fontFamily: 'Poppins, sans-serif', fontSize: '1rem', textAlign: 'center', borderBottom:'none'}}>Time & Date</TableCell>
                                   </TableRow>
                                 </TableHead>
                                 <TableBody style={{ maxHeight: 20 }}>
@@ -267,11 +266,11 @@ const Item = styled(Paper)(({ theme }) => ({
                                     .filter((item) => item.type === type)
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .map((item, index) => (
-                                    <TableRow key={index}>
-                                      <TableCell style={{ color: 'white', textAlign: 'center', fontFamily: 'Poppins', textTransform: 'uppercase' }}> {item.type}</TableCell>
-                                      <TableCell style={{ color: 'white', textAlign: 'center', fontFamily: 'Poppins' }}>{item.value}</TableCell>
-                                      <TableCell style={{ color: 'white', textAlign: 'center', fontFamily: 'Poppins', textTransform: 'uppercase' }}>{item.status}</TableCell>
-                                      <TableCell style={{ color: 'white', textAlign: 'center', fontFamily: 'Poppins' }}>{moment(item.createdAt).format('LT[ • ]LL')}</TableCell>
+                                      <TableRow key={index} className={index % 2 === 0 ? 'even-row' : 'odd-row'}>
+                                      <TableCell style={{ color: 'white', textAlign: 'center', fontFamily: 'Poppins', textTransform: 'uppercase', borderBottom:'none'}}> {item.type}</TableCell>
+                                      <TableCell style={{ color: 'white', textAlign: 'center', fontFamily: 'Poppins' , borderBottom:'none'}}>{item.value}</TableCell>
+                                      <TableCell style={{ color: 'white', textAlign: 'center', fontFamily: 'Poppins', textTransform: 'uppercase' , borderBottom:'none' }}>{item.status}</TableCell>
+                                      <TableCell style={{ color: 'white', textAlign: 'center', fontFamily: 'Poppins', borderBottom:'none' }}>{moment(item.createdAt).format('LT[ • ]LL')}</TableCell>
                                     </TableRow>
                                   ))}
                                 </TableBody>
@@ -348,7 +347,6 @@ const Item = styled(Paper)(({ theme }) => ({
                         </div>
                         <span style={{ color:'#66B2FF', fontSize:'0.7rem', fontWeight:'400', marginLeft:'-6.3rem', marginTop:'0.6rem'}}>  
                         {filteredData.filter((item) => item.type === 'temperature').length} results  </span>
-                       <TrendingFlatRoundedIcon className='select' sx={{color: '#0D2135', paddingLeft:'6rem'}}/>
                     </button>
 
                     <button onClick={() => {handleClick(1); handleClick( params.turbidity, 'SEN0189', 'turbidity', 'ntucolor');}} 
@@ -361,7 +359,6 @@ const Item = styled(Paper)(({ theme }) => ({
                         </div>
                         <span style={{ color:'#66B2FF', fontSize:'0.7rem', fontWeight:'400', marginLeft:'-6.4rem', marginTop:'0.6rem'}}> 
                         {filteredData.filter((item) => item.type === 'turbidity').length} results </span>
-                        <TrendingFlatRoundedIcon className='select' sx={{color: '#0D2135', paddingLeft:'6rem'}}/>
                     </button>
 
 
@@ -375,9 +372,7 @@ const Item = styled(Paper)(({ theme }) => ({
                         </div>
                         <span style={{ color:'#66B2FF', fontSize:'0.7rem', fontWeight:'400', marginLeft:'-6.4rem', marginTop:'0.7rem'}}> 
                         {filteredData.filter((item) => item.type === 'pH').length} results </span>
-                        <TrendingFlatRoundedIcon className='select' sx={{color: '#0D2135', paddingLeft:'6rem'}}/>
                     </button>
-
                 </Item>
                 </div>  
       

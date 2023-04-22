@@ -41,7 +41,7 @@ app.use('/api/realm', parameterRoutes)
 
 
 
-//setup mongoose connection
+//setup mongoose connection ZSt6kE8TzgVq92jt
 mongoose.set('strictQuery', true)
 const mongodbConnString = "mongodb+srv://realmadmin:ZSt6kE8TzgVq92jt@realmcluster.ole0mns.mongodb.net/?retryWrites=true&w=majority"
 
@@ -61,4 +61,3 @@ mongoose.connection.on("open", function() {
 app.listen(8080, () => {
     console.log ('Server running!')
 })
-
